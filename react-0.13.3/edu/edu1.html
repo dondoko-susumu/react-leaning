@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>react hello world</title>
+		<script src="../build/react.js"></script>
+		<script src="../build/JSXTransformer.js"></script>
+	</head>
+	<body>
+		<p>web+db press vol.86 p.124</p>
+		<div id="app-container"></div>
+		<script type="text/jsx">
+			var Hello = React.createClass({
+				render:function(){
+					return (
+						<div>
+							<h1>Hello, React</h1>
+						</div>
+					);
+				}
+			});
+
+			React.render(
+				<Hello />,
+				document.getElementById('app-container')
+			);
+		</script>
+	</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>react input form</title>
+		<script src="../build/react.js"></script>
+		<script src="../build/JSXTransformer.js"></script>
+	</head>
+	<body>
+		<p>web+db press vol.86 p.127</p>
+		<div id="app-container"></div>
+		<script type="text/jsx">
+			var App = React.createClass({
+				getInitialState : function (){
+					return { message: "" };
+				},
+
+				updateMessage : function (e){
+					this.setState({ message: e.target.value});
+				},
+
+				render:function(){
+					return (
+						<div>
+							<input type="text" onChange={this.updateMessage} />
+							<Message message={this.state.message} />
+						</div>
+					);
+				}
+			});
+
+			var Message = React.createClass({
+				render: function () {
+					return <p>{this.props.message}</p>;
+				}
+			});
+
+			React.render(
+				<App />,
+				document.getElementById('app-container')
+			);
+		</script>
+	</body>
+</html>

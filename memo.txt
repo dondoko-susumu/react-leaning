@@ -1,0 +1,41 @@
+2015/08/29
+
+WEB+DB PRESS vol.86 P.129
+
+npmでreactインストール
+
+$ npm install -g react-tools
+$ jsx -x jsx --watch src/ dest/
+
+$ npm install  -g browserify
+$ npm install react
+$ npm install reactify
+
+$ browserify -t reactify src/app.jsx -o dest/app.js
+Error: EMFILE, open '/Users/kubotaken/Desktop/javascript/react/node_modules/react/package.json'
+
+$ ulimit -n
+256
+$ ulimit -n 512
+
+[参考]
+http://qiita.com/castor4bit/items/8d8b245e0698cc38f2a0
+
+vol.86 P.130
+markdownプレビュー
+
+$ npm install markdown
+
+$ browserify -t reactify src/markdown.jsx -o dest/markdown.js
+
+
+vol.87 P.134
+flux
+
+$ npm install -g watchify
+
+$ watchify -t reactify src/counter.jsx -o dest/counter.js -v
+
+$ npm install fulxxor
+
+
