@@ -15,9 +15,36 @@ var CounterStore = Fluxxor.createStore({
 		);
 	},
 	
-	//ここまで
+	onUpdateCounter: function(payload) {
+		this.counter= this.counter + payload.value;
+		this.emit('change');
+	},
+	
+	getState: function() {
+		return { counter:this.counter};
+	}
 	
 });
+
+//Action (Action Creater)
+var actions = {
+	plusCounter:function () {
+		this.dispatch(constants.UPDATE_COUNTER, {value:1});
+	},
+	minusCounter: function () {
+		this.dispatch(constants.UPDATE_COUNTER, {value:-1});
+	}
+};
+
+// Reactから利用するMixin
+var FluxMixin = Fluxxor.FluxMixin(React),
+    StoreWatchMixin = Fluxxor.StoreWatchMixin;
+
+// View (React)
+
+
+
+
 
 //↓ここからReactだけのcounter
 
