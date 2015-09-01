@@ -2,7 +2,7 @@
 var React    = require('react');
 var Fluxxor  = require('fluxxor');
 
-var constans = {
+var constants = {
 	UPDATE_COUNTER: "UPDATE_CONTER",
 };
 
@@ -41,43 +41,36 @@ var FluxMixin = Fluxxor.FluxMixin(React),
     StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 // View (React)
+var CounterApp = React.createClass({
+	//Reactのmixin機能を使って、Fluxが持っているFluxMixin,StoreWatchMixinをコンポーネントに
+	//mixinしている。P.138
+	mixins: [ FluxMixin, StoreWatchMixin("CounterStore")],
 
-
-
-
-
-//↓ここからReactだけのcounter
-
-var CountApp = React.createClass({
-	getInitialState : function (){
-		return { counter: 0 };
+	getStateFromFlux: function(){
+		return this.getFlux()
+		           .store('CounterStore')
+		           .getState();
 	},
 
-	handlePlus : function (){
-		this.setState({ counter: this.state.counter + 1 });
-	},
-
-	handleMinus : function (){
-		this.setState({ counter: this.state.counter - 1 });
-	},
-
-	render:function(){
-		return (
-			<div>
-				<Counter value={this.state.counter}
-				         onClickPlus={this.handlePlus}
-				         onClickMinus={this.handleMinus} />
-			</div>
-		);
+	render: function(){
+		return <Counter value={this.state.counter} />;
 	}
 });
 
 var Counter = React.createClass({
+	mixins:[ FluxMixin ],
+
 	// propTypesは、Propで渡ってくる値の方をチェックしバリデーションを行うための機構です。P.131
 	propTypes: {
 		value:        React.PropTypes.number.isRequired,
-		onClickPlus:  React.PropTypes.func.isRequired,
-		onClickMinus: React.PropTypes.func.isRequired,
+	},
+
+	onClickPlus: function(){
+		return this.getFlux().actions.plusCounter();
+	},
+
+	onClickMinus: function(){
+		return this.getFlux().actions.minusCounter();
 	},
 
 	render: function () {
@@ -85,19 +78,18 @@ var Counter = React.createClass({
 			<div>
 				<span>count: {this.props.value}</span>
 				<div>
-					<button onClick={this.props.onClickPlus}>
-					+1
-					</button>
-					<button onClick={this.props.onClickMinus}>
-					-1
-					</button>
+					<button onClick={this.onClickPlus}>+1</button>
+					<button onClick={this.onClickMinus}>-1</button>
 				</div>
 			</div>
 		);
 	}
 });
 
+var stores = {CounterStore: new CounterStore()};
+var flux = new Fluxxor.Flux(stores,actions);
+
 React.render(
-	<CountApp />,
+	<CounterApp flux={flux} />,
 	document.getElementById('app-container')
 );
